@@ -45,7 +45,7 @@ export class Game {
     this.ball = new Ball({ r: 6, speed: 320 });
     this.ball.stickToPaddle(this.paddle);
 
-    this.hud = new HUD({ worldW: W });
+    this.hud = new HUD({ worldW: W, worldH: H });
     this.sfx = new SFX({ volume: 0.5, muted: false });
 
     this.score = 0;
