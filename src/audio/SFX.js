@@ -53,7 +53,6 @@ export class SFX {
     osc.frequency.setValueAtTime(freq, t0);
     if (freqTo != null) osc.frequency.exponentialRampToValueAtTime(freqTo, t1);
 
-    // ADSR-ish envelope
     g.gain.setValueAtTime(0.0001, t0);
     g.gain.exponentialRampToValueAtTime(Math.max(0.0002, gain), t0 + attack);
     g.gain.exponentialRampToValueAtTime(0.0001, t1 + release);
