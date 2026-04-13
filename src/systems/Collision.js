@@ -16,6 +16,39 @@ export function normalizeVelocity(ball, speed) {
   ball.vy = (ball.vy / len) * speed;
 }
 
+export function enforceAngleWindow(
+  ball,
+  speed,
+  { minVxFrac = 0.18, minVyFrac = 0.18 } = {}
+) {
+  const s = Math.abs(speed);
+  if (!s) return false;
+
+  let vx = ball.vx;
+  let vy = ball.vy;
+
+  const minVX = s * minVxFrac;
+  const minVY = s * minVyFrac;
+
+  let changed = false;
+
+  if (Math.abs(vx) < minVX) {
+    vx = Math.sign(vx || 1) * minVX;
+    changed = true;
+  }
+  if (Math.abs(vy) < minVY) {
+    vy = Math.sign(vy || 1) * minVY;
+    changed = true;
+  }
+
+  if (!changed) return false;
+
+  const len = Math.hypot(vx, vy) || 1;
+  ball.vx = (vx / len) * s;
+  ball.vy = (vy / len) * s;
+  return true;
+}
+
 export function circleAabbMTV(ball, box) {
   const closestX = clamp(ball.x, box.x, box.x + box.w);
   const closestY = clamp(ball.y, box.y, box.y + box.h);

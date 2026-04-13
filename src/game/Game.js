@@ -10,6 +10,7 @@ import {
   bounceBallFromPaddle,
   resolveBallAabb,
   normalizeVelocity,
+  enforceAngleWindow,
   clamp
 } from "../systems/Collision.js";
 
@@ -125,6 +126,7 @@ export class Game {
         this.ball.launch((-90 * Math.PI) / 180, 1);
         this.sfx.bounce();
         normalizeVelocity(this.ball, this.ball.speed);
+        enforceAngleWindow(this.ball, this.ball.speed);
         this.state = "playing";
         this.stateT = 0;
       }
@@ -150,10 +152,12 @@ export class Game {
     if (
       resolveBallWalls(this.ball, { w: this.W, h: this.H, wall: this.wall })
     ) {
+      enforceAngleWindow(this.ball, this.ball.speed);
       this.sfx.bounce();
     }
 
     if (bounceBallFromPaddle(this.ball, this.paddle, this.ball.speed)) {
+      enforceAngleWindow(this.ball, this.ball.speed);
       this.sfx.bounce();
     }
 
@@ -163,6 +167,7 @@ export class Game {
       if (resolveBallAabb(this.ball, b, { epsilon: 0.02 })) {
         hitBrick = true;
 
+        enforceAngleWindow(this.ball, this.ball.speed);
         const destroyed = this.bricks.damage(b, 1);
         this.sfx.brickHit(b.maxHp);
         if (destroyed) this.sfx.brickBreak();
