@@ -104,8 +104,10 @@ export class Game {
 
   pointerJustPressed() {
     const down = !!this.input?.pointerDown;
-    const just = down && !this.prevPointerDown;
+    const key = !!this.input?.launchPressed;
+    const just = (down && !this.prevPointerDown) || key;
     this.prevPointerDown = down;
+    if (key) this.input.launchPressed = false;
     return just;
   }
 

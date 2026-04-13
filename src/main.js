@@ -22,6 +22,9 @@ const view = {
 
 const input = {
   pointerDown: false,
+  left: false,
+  right: false,
+  launchPressed: false,
   worldX: WORLD_W / 2,
   worldY: WORLD_H / 2
 };
@@ -84,7 +87,6 @@ canvas.addEventListener("pointerdown", (e) => {
   onPointer(e);
 });
 canvas.addEventListener("pointermove", (e) => {
-  if (!input.pointerDown) return;
   onPointer(e);
 });
 canvas.addEventListener("pointerup", () => {
@@ -92,6 +94,20 @@ canvas.addEventListener("pointerup", () => {
 });
 canvas.addEventListener("pointercancel", () => {
   input.pointerDown = false;
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.code === "ArrowLeft") input.left = true;
+  if (e.code === "ArrowRight") input.right = true;
+  if (e.code === "Space") {
+    input.launchPressed = true;
+    e.preventDefault();
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.code === "ArrowLeft") input.left = false;
+  if (e.code === "ArrowRight") input.right = false;
 });
 
 let paused = false;
@@ -120,6 +136,12 @@ function frame(now) {
   prev = now;
 
   dt = Math.min(dt, 1 / 30);
+
+  const keySpeed = 520;
+  const dir = (input.right ? 1 : 0) - (input.left ? 1 : 0);
+  if (dir !== 0) {
+    input.worldX = clamp(input.worldX + dir * keySpeed * dt, 0, WORLD_W);
+  }
 
   game.update(dt);
   game.render();
