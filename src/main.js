@@ -97,8 +97,14 @@ canvas.addEventListener("pointercancel", () => {
 });
 
 window.addEventListener("keydown", (e) => {
-  if (e.code === "ArrowLeft") input.left = true;
-  if (e.code === "ArrowRight") input.right = true;
+  if (e.code === "ArrowLeft") {
+    input.left = true;
+    e.preventDefault();
+  }
+  if (e.code === "ArrowRight") {
+    input.right = true;
+    e.preventDefault();
+  }
   if (e.code === "Space") {
     input.launchPressed = true;
     e.preventDefault();
