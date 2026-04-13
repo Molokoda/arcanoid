@@ -122,8 +122,7 @@ export class Game {
 
       if (this.pointerJustPressed()) {
         this.sfx.init();
-        const angleDeg = -90 + (Math.random() * 30 - 15);
-        this.ball.launch((angleDeg * Math.PI) / 180, 1);
+        this.ball.launch((-90 * Math.PI) / 180, 1);
         this.sfx.bounce();
         normalizeVelocity(this.ball, this.ball.speed);
         this.state = "playing";
@@ -205,7 +204,7 @@ export class Game {
 
     if (this.state === "serve") {
       stateText = "Tap / Click to launch";
-      hintText = "Move to aim";
+      hintText = "Move to position";
     } else if (this.state === "levelComplete") {
       stateText = "Level complete";
       hintText = "Next...";
