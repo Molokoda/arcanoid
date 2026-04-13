@@ -1,7 +1,14 @@
 import { Game } from "./game/Game.js";
 
 const canvas = document.getElementById("canvas");
+if (!(canvas instanceof HTMLCanvasElement)) {
+  throw new Error('Canvas element with id "canvas" not found.');
+}
+
 const ctx = canvas.getContext("2d", { alpha: false });
+if (!ctx) {
+  throw new Error("Failed to create 2D canvas context.");
+}
 
 const WORLD_W = 360;
 const WORLD_H = 640;
