@@ -12,16 +12,6 @@ export class HUD {
 
     this.font = "14px system-ui, -apple-system, Segoe UI, Roboto, Arial";
     this.fontBig = "18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-
-    this.flashT = 0;
-  }
-
-  flash(duration = 0.12) {
-    this.flashT = Math.max(this.flashT, duration);
-  }
-
-  update(dt) {
-    if (this.flashT > 0) this.flashT = Math.max(0, this.flashT - dt);
   }
 
   render(
@@ -62,12 +52,6 @@ export class HUD {
         ctx.fillStyle = this.muted;
         ctx.fillText(hintText, this.worldW / 2, 320);
       }
-    }
-
-    if (this.flashT > 0) {
-      const a = Math.min(0.18, this.flashT * 1.5);
-      ctx.fillStyle = `rgba(255,255,255,${a})`;
-      ctx.fillRect(0, 0, this.worldW, 640);
     }
 
     ctx.restore();

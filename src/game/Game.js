@@ -111,7 +111,6 @@ export class Game {
 
   update(dt) {
     this.stateT += dt;
-    this.hud.update(dt);
 
     if (this.input) this.paddle.setTargetCenterX(this.input.worldX);
     this.paddle.update(dt);
@@ -167,7 +166,6 @@ export class Game {
         this.sfx.brickHit(b.maxHp);
         if (destroyed) this.sfx.brickBreak();
         this.score += destroyed ? b.score : 0;
-        this.hud.flash(0.1);
       }
     });
 
