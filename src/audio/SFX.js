@@ -5,6 +5,9 @@ export class SFX {
 
     this.ctx = null;
     this.master = null;
+
+    this._timerLevel = 0;
+    this._seq = 0;
   }
 
   init() {
@@ -104,6 +107,13 @@ export class SFX {
   }
 
   levelComplete() {
+    this._seq += 1;
+    const seq = this._seq;
+    if (this._timerLevel) {
+      clearTimeout(this._timerLevel);
+      this._timerLevel = 0;
+    }
+
     this._beep({
       type: "sine",
       freq: 660,
@@ -112,17 +122,17 @@ export class SFX {
       gain: 0.28
     });
     if (this.ctx) {
-      setTimeout(
-        () =>
-          this._beep({
-            type: "sine",
-            freq: 880,
-            freqTo: 1320,
-            duration: 0.09,
-            gain: 0.22
-          }),
-        70
-      );
+      this._timerLevel = setTimeout(() => {
+        if (this._seq !== seq) return;
+        this._timerLevel = 0;
+        this._beep({
+          type: "sine",
+          freq: 880,
+          freqTo: 1320,
+          duration: 0.09,
+          gain: 0.22
+        });
+      }, 70);
     }
   }
 }
